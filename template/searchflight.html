@@ -1,0 +1,94 @@
+<div class="main-container" ng-init="allFlights()">
+         <h2 class="title">{{HeaderTitle}}</h2>
+         <div class="submain-container">
+            <div class="side-bar" >
+               <div class="radio-toolbar">
+                  <input type="radio" id="radio1" name="radios" ng-model="flight.trip" value="oneway" checked>
+                  <label for="radio1">One Way</label>
+                  <input type="radio" id="radio2" name="radios" ng-model="flight.trip" value="return">
+                  <label for="radio2">Return</label>
+               </div>
+               <div class="form-input-container">
+                  <form name='airlineSearch' novalidate class="align-text"><br>
+                     
+                     <input type="text" ng-model="flight.ocity" id ="ocity" name="ocity" placeholder="Enter Origin City">
+                        
+                     
+                     <input type="text" ng-model="flight.dcity" id='dcity' name="dcity" placeholder="Enter Destination City">
+                     
+                      
+                         <input type="text" ng-model="flight.ddate"  name="ddate" id="ddate" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" placeholder="Departure Date" value="Departure Date">
+                            
+                      <div ng-show="flight.trip == 'return'">
+                         <input type="text" ng-model="flight.rdate" name="rdate" id="rdate" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" placeholder="Return Date" name="rdate" value="Return Date">
+                          
+                      </div>
+                     
+                     <select ng-model="flight.passenger">
+                        <option value="" >Passengers</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                     </select>
+                     <br><br>
+                     <input type="submit" ng-disabled="!airlineSearch.$valid" class="button" value="Search" ng-click="flightSearch(flight)">
+                     
+                  </form>
+               </div>
+               <div class="form-input-range-container" ng-if="flight.flightFilterSearch">
+                  <div  class="align-text">
+                     <br>
+                     <p>Refine Flight Search</p>
+                     <br>
+                      <p style="float:left">{{search.price_min}}</p>  <p style="float:right"> {{search.price_max}}</p>
+                       <slider-range min="0" max="100000" value-min="search.price_min" value-max="search.price_max" ng-click="flightSearch(flight)"></slider-range>
+                     <br>
+
+                  </div>
+               </div>
+                   
+            </div>
+            <div class="right-container" >
+               <div style="  " class="sub-right-container" ng-if="flight.flightFilterSearch">
+                  <div class="ls-col">
+                     <h3>{{flight.subHeader}}</h3>
+                  </div>
+                  <div class="rs-col" style="">
+                     <p>Depart: {{flight.ddate}}</p>
+                     <p ng-if="freturn">Return: {{flight.rdate}}</p>
+                  </div>
+               </div>
+                                
+                <div class="sub-right-content-container" ng-repeat="fflight in flightSearchResult">
+                  <div class="ls-col">
+                      <h2><p><span>Rs : {{fflight.flightRate}}</span></p></h2>
+                     <div class="text-info" >
+                         <h5><p> {{fflight.flightName}}</p></h5>
+                         {{fflight.orginCity}} > {{fflight.destinationCity}}
+                        <p><span>Depart: {{fflight.departureTime}}</span></p>
+                         <p><span>Arive: {{fflight.arrivalTime}}</span></p>
+                     </div>
+                     <div class="text-info" ng-if="freturn">
+                         <h5><p> {{fflight.rflightName}}</p></h5>
+                         {{fflight.orginCity}} > {{fflight.destinationCity}}
+                        <p><span>Depart: {{fflight.rdepartureTime}}</span></p>
+                         <p><span>Arive: {{fflight.rarrivalTime}}</span></p>
+                     </div>
+                  </div>
+                  <div class="rs-col">
+                     <div class="avatar" >
+                        <img src="../img/{{fflight.flightLogo}}" alt="air line" class="rounded-circle img-responsive" style="width: 150px;
+                           height: 150px;">
+                     </div>
+                     <button class="button" > Book this Flight </button>
+                  </div>
+               </div>
+                
+                <div class="sub-right-content-container" ng-if="flight.noData">
+                  <div class="ls-col">
+                      <h2><p><span>No flight available.........!</span></p></h2>
+                  </div>
+               </div> 
+            </div>
+         </div>
+      </div>
